@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #F4F6F8;
+  --surface: #FFFFFF;
+  --surface-subtle: #EDF1F5;
+  --ink: #101828;
+  --ink-muted: #475467;
+  --border: #D5DDE5;
+  --border-strong: #98A6B8;
+
+  --cobalt: #1D4ED8;
+  --cobalt-dark: #153AA3;
+  --cobalt-soft: #EBF2FE;
+
+  --emerald: #0D7A5F;
+  --emerald-dark: #085A45;
+  --emerald-soft: #E6F6F1;
+
+  --vermilion: #C83E2B;
+  --vermilion-dark: #9B2C1D;
+  --vermilion-soft: #FDEEEB;
+
+  --ochre-bg: #FEF7E6;
+  --ochre-border: #EAB308;
+  --ochre-ink: #9A4A06;
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.font-math {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Crisp millimeter drafting paper texture reserved for math sandboxes */
+.math-grid-bg {
+  background-color: #FFFFFF;
+  background-image:
+    linear-gradient(to right, rgba(16, 24, 40, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 24, 40, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Tactile physical manipulative tiles (Mathigon/Desmos inspired bevel, not blurry drop-shadow) */
+.tile-x {
+  background-color: #1D4ED8;
+  color: #FFFFFF;
+  border: 1.5px solid #153AA3;
+  border-bottom-width: 4px;
+}
+
+.tile-neg-x {
+  background-color: #FDEEEB;
+  color: #9B2C1D;
+  border: 1.5px dashed #C83E2B;
+  border-bottom: 4px solid #C83E2B;
+}
+
+.tile-one {
+  background-color: #0D7A5F;
+  color: #FFFFFF;
+  border: 1.5px solid #085A45;
+  border-bottom-width: 4px;
+}
+
+.tile-neg-one {
+  background-color: #FFFFFF;
+  color: #9B2C1D;
+  border: 1.5px dashed #C83E2B;
+  border-bottom: 4px solid #C83E2B;
+}
+
+/* Subtle dot pattern for the class chat canvas */
+.chat-canvas-bg {
+  background-color: #ECEFF2;
+  background-image: radial-gradient(rgba(16, 24, 40, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Tactile primary action button */
+.btn-tactile {
+  transition: transform 100ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.btn-tactile:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Accessible focus outline */
+:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
