@@ -4,12 +4,16 @@
   --canvas: #F4F6F8;
   --surface: #FFFFFF;
   --surface-subtle: #EDF1F5;
+  --surface-muted: #F1F4F8;
   --ink: #101828;
   --ink-muted: #475467;
+  --ink-subtle: #667085;
   --border: #D5DDE5;
+  --border-subtle: #E4EAF0;
   --border-strong: #98A6B8;
 
   --cobalt: #1D4ED8;
+  --cobalt-hover: #153AA3;
   --cobalt-dark: #153AA3;
   --cobalt-soft: #EBF2FE;
 
@@ -24,6 +28,10 @@
   --ochre-bg: #FEF7E6;
   --ochre-border: #EAB308;
   --ochre-ink: #9A4A06;
+
+  --font-bricolage: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
+  --font-ibm-plex-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 @theme inline {
