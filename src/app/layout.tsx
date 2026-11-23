@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+} from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/AuthProvider";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -24,9 +31,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RuasSetara | Media Interaktif PLSV SMP Kelas VII",
+  title:
+    "RuasSetara — Website Pembelajaran Interaktif PLSV SMP Kelas VII",
   description:
-    "Website pembelajaran interaktif untuk mengatasi miskonsepsi Persamaan Linear Satu Variabel melalui eksplorasi visual-simbolik dan scaffolding bertingkat pada jenjang SMP Kelas VII.",
+    "Media pembelajaran digital interaktif Persamaan Linear Satu Variabel (PLSV) untuk mengatasi miskonsepsi melalui eksplorasi visual-simbolik dan scaffolding bertingkat.",
 };
 
 export default function RootLayout({
@@ -39,8 +47,12 @@ export default function RootLayout({
       lang="id"
       className={`${bricolage.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
     >
-      <body className="min-h-screen bg-[var(--canvas)] text-[var(--ink)] antialiased">
-        {children}
+      <body className="flex min-h-screen flex-col bg-[var(--canvas)] font-sans text-[var(--ink)] antialiased">
+        <AuthProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
