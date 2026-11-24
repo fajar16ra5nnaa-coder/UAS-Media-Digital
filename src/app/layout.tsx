@@ -13,9 +13,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "RuasSetara — Website Pembelajaran Interaktif PLSV SMP Kelas VII",
+  title: "RuasSetara — Website Pembelajaran Interaktif PLSV & PtLSV SMP Kelas VII",
   description:
-    "Media pembelajaran digital interaktif Persamaan Linear Satu Variabel (PLSV) untuk mengatasi miskonsepsi melalui eksplorasi visual-simbolik dan scaffolding bertingkat.",
+    "Media pembelajaran digital interaktif Persamaan & Pertidaksamaan Linear Satu Variabel (PLSV & PtLSV) melalui eksplorasi visual-simbolik, LKPD 3 LKS, evaluasi berpikir kreatif, dan scaffolding bertingkat.",
 };
 
 export default function RootLayout({

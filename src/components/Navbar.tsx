@@ -82,7 +82,7 @@ export function Navbar() {
               Ruas<span className="text-[var(--cobalt)]">Setara</span>
             </span>
             <span className="mt-0.5 block font-mono text-[10px] font-medium uppercase tracking-wider text-[var(--ink-subtle)]">
-              PLSV · SMP VII
+              PLSV &amp; PtLSV · SMP VII
             </span>
           </div>
         </Link>

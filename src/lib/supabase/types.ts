@@ -28,10 +28,12 @@ export interface DiagnosticAttemptRow {
   correct_count: number;
   total_questions: number;
   misconception_summary: {
+    mode?: string;
     klasifikasional: number;
     korelasional: number;
     teoritikal: number;
     confidentWrong?: number;
+    answeredProblems?: number;
     dominantType?: string | null;
   };
   duration_seconds: number;

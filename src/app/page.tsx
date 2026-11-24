@@ -26,20 +26,20 @@ const MODULES = [
   {
     code: "02",
     href: "/lkpd",
-    title: "LKPD Digital 4 Tahap",
-    tag: "Inkuiri + Scaffolding",
+    title: "LKPD Digital 3 LKS",
+    tag: "PLSV & PtLSV · Scaffolding",
     icon: BookOpen,
     description:
-      "Lembar kerja interaktif berjenjang: klasifikasi PLSV, inkuiri timbangan, pemodelan masalah kontekstual, dan HOTS C4–C6.",
+      "LKS 1 (Konsep PLSV & Neraca), LKS 2 (Penyelesaian PLSV & Konsep PtLSV + Garis Bilangan), dan LKS 3 (Menyelesaikan PtLSV).",
   },
   {
     code: "03",
     href: "/evaluasi",
-    title: "Evaluasi Diagnostik",
-    tag: "Deteksi Miskonsepsi",
+    title: "Evaluasi & Diagnostik",
+    tag: "Berpikir Kreatif + 2-Tier",
     icon: ClipboardCheck,
     description:
-      "10 butir diagnostik dua tingkat (jawaban + keyakinan) untuk memetakan miskonsepsi Klasifikasional, Korelasional, dan Teoritikal.",
+      "4 soal uraian open-ended PLSV & PtLSV dengan feedback kunci multi-alternatif, dilengkapi tab diagnostik 2-tier 10 soal.",
   },
   {
     code: "04",
@@ -82,16 +82,17 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-4 font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-[var(--ink)] sm:text-5xl">
-            Pahami PLSV lewat{" "}
+            Pahami PLSV &amp; PtLSV lewat{" "}
             <span className="text-[var(--cobalt)]">Kesetaraan Ruas</span>, bukan
             sekadar hafalan pindah ruas.
           </h1>
 
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg">
             <strong>RuasSetara</strong> menjembatani pemahaman visual-konkret
-            timbangan aljabar dengan notasi simbolik formal, dilengkapi{" "}
-            <em>scaffolding</em> bertingkat 3 level dan diagnosis miskonsepsi
-            instan.
+            timbangan aljabar dengan notasi simbolik formal untuk{" "}
+            <strong>PLSV &amp; PtLSV</strong>, dilengkapi LKPD inkuiri 3 LKS,{" "}
+            <em>scaffolding</em> bertingkat 3 level, serta evaluasi berpikir
+            kreatif dan diagnostik miskonsepsi.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">

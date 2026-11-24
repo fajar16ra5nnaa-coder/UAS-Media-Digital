@@ -6,6 +6,9 @@ import {
   AlertTriangle,
   BarChart3,
   BookOpen,
+  ChevronDown,
+  ChevronUp,
+  FileText,
   Lock,
   MessageSquare,
   RefreshCw,
@@ -23,15 +26,29 @@ interface StudentSummary {
   profile: Profile;
   lkpdCompleted: number;
   lkpdAvgScore: number;
+  lkpdRows: LkpdSubmissionRow[];
   scaffoldingTotal: { l1: number; l2: number; l3: number };
   latestDiagnosticScore: number | null;
   dominantMisconception: string | null;
+  latestCreativeAttempt: DiagnosticAttemptRow | null;
+}
+
+function isCreativePosttest(row: DiagnosticAttemptRow): boolean {
+  return (
+    row.misconception_summary?.mode === "creative_posttest" ||
+    (row.answers &&
+      typeof row.answers === "object" &&
+      (row.answers as Record<string, unknown>).mode === "creative_posttest")
+  );
 }
 
 export default function GuruPanelPage() {
   const { profile, loading, loginDemo } = useAuth();
   const [fetching, setFetching] = useState(false);
   const [students, setStudents] = useState<StudentSummary[]>([]);
+  const [expandedStudentId, setExpandedStudentId] = useState<string | null>(
+    null
+  );
   const [chatCount, setChatCount] = useState(0);
   const [misconceptionTotals, setMisconceptionTotals] = useState({
     klasifikasional: 0,
@@ -69,7 +86,9 @@ export default function GuruPanelPage() {
       let teor = 0;
 
       const summaries: StudentSummary[] = siswaList.map((s) => {
-        const myLkpd = lkpdRows.filter((r) => r.user_id === s.id);
+        const myLkpd = lkpdRows
+          .filter((r) => r.user_id === s.id && r.stage_number >= 1 && r.stage_number <= 3)
+          .sort((a, b) => a.stage_number - b.stage_number);
         const completed = myLkpd.filter((r) => r.is_completed);
         const avgLkpd =
           completed.length > 0
@@ -88,21 +107,27 @@ export default function GuruPanelPage() {
           { l1: 0, l2: 0, l3: 0 }
         );
 
-        const latestDiag = diagRows.find((d) => d.user_id === s.id);
-        if (latestDiag?.misconception_summary) {
-          klas += latestDiag.misconception_summary.klasifikasional ?? 0;
-          kor += latestDiag.misconception_summary.korelasional ?? 0;
-          teor += latestDiag.misconception_summary.teoritikal ?? 0;
+        const myAttempts = diagRows.filter((d) => d.user_id === s.id);
+        const latestTwoTier = myAttempts.find((d) => !isCreativePosttest(d));
+        const latestCreative =
+          myAttempts.find((d) => isCreativePosttest(d)) ?? null;
+
+        if (latestTwoTier?.misconception_summary) {
+          klas += latestTwoTier.misconception_summary.klasifikasional ?? 0;
+          kor += latestTwoTier.misconception_summary.korelasional ?? 0;
+          teor += latestTwoTier.misconception_summary.teoritikal ?? 0;
         }
 
         return {
           profile: s,
           lkpdCompleted: completed.length,
           lkpdAvgScore: avgLkpd,
+          lkpdRows: myLkpd,
           scaffoldingTotal: scaff,
-          latestDiagnosticScore: latestDiag ? latestDiag.score : null,
+          latestDiagnosticScore: latestTwoTier ? latestTwoTier.score : null,
           dominantMisconception:
-            latestDiag?.misconception_summary?.dominantType ?? null,
+            latestTwoTier?.misconception_summary?.dominantType ?? null,
+          latestCreativeAttempt: latestCreative,
         };
       });
 
@@ -176,6 +201,7 @@ export default function GuruPanelPage() {
       ? Math.round(diagScores.reduce((a, b) => a + b, 0) / diagScores.length)
       : 0;
   const totalLkpdDone = students.reduce((a, s) => a + s.lkpdCompleted, 0);
+  const creativeCount = students.filter((s) => s.latestCreativeAttempt).length;
   const totalMisc = Math.max(
     1,
     misconceptionTotals.klasifikasional +
@@ -187,24 +213,24 @@ export default function GuruPanelPage() {
     [
       {
         key: "korelasional",
-        label: "Miskonsepsi Korelasional (Operasi Kedua Ruas & Pindah Ruas)",
+        label: "Miskonsepsi Korelasional (Operasi Kedua Ruas & Tanda PtLSV)",
         count: misconceptionTotals.korelasional,
         action:
-          "Fokuskan apersepsi pertemuan berikutnya pada eksperimen Lab Timbangan Misi 5–8 (variabel di kedua ruas & koefisien negatif).",
+          "Fokuskan apersepsi pertemuan berikutnya pada eksperimen Lab Timbangan (variabel di kedua ruas & koefisien negatif) serta audit langkah LKS 2–3.",
       },
       {
         key: "teoritikal",
         label: "Miskonsepsi Teoritikal (Sifat Distributif & Suku Sejenis)",
         count: misconceptionTotals.teoritikal,
         action:
-          "Berikan penguatan contoh distributif bertanda negatif dan review Kasus Dito pada LKPD Tahap 4.",
+          "Berikan penguatan contoh perkalian pecahan/distributif pada LKS 2 Soal 1b–1c (mengalikan seluruh suku di kedua ruas).",
       },
       {
         key: "klasifikasional",
-        label: "Miskonsepsi Klasifikasional (Identifikasi Bentuk & Ekuivalensi)",
+        label: "Miskonsepsi Klasifikasional (Identifikasi PLSV vs PtLSV)",
         count: misconceptionTotals.klasifikasional,
         action:
-          "Ulangi klasifikasi kartu LKPD Tahap 1 dan tekankan syarat 1 variabel berpangkat 1 dengan tanda '='.",
+          "Ulangi klasifikasi LKS 1 & LKS 2 (membedakan tanda '=', '<', '>', '≤', '≥' dan syarat pangkat variabel = 1).",
       },
     ] as const
   )
@@ -217,15 +243,15 @@ export default function GuruPanelPage() {
       <div className="flex flex-col justify-between gap-4 border-b border-[var(--border)] pb-5 md:flex-row md:items-end">
         <div>
           <p className="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--emerald)]">
-            Modul 06 · Panel Analitik Guru · {profile.full_name}
+            Modul 06 · Panel Analitik Guru · PLSV &amp; PtLSV · {profile.full_name}
           </p>
           <h1 className="mt-1 font-display text-3xl font-bold tracking-tight text-[var(--ink)]">
-            Dashboard Intervensi &amp; Miskonsepsi Kelas
+            Dashboard Intervensi, LKPD 3 LKS &amp; Evaluasi Siswa
           </h1>
           <p className="mt-1.5 max-w-2xl text-sm text-[var(--ink-muted)]">
-            Data agregasi real-time dari basis data Supabase untuk membantu guru
-            memetakan pola miskonsepsi Sarla et al. (2025) dan kebutuhan
-            pendampingan tiap siswa.
+            Data agregasi real-time dari Supabase untuk memantau ketuntasan LKS
+            1–3, meninjau jawaban uraian Evaluasi Berpikir Kreatif (4 Soal), dan
+            memetakan miskonsepsi diagnostik 2-tier kelas.
           </p>
         </div>
 
@@ -262,13 +288,13 @@ export default function GuruPanelPage() {
             {students.length}
           </div>
           <div className="mt-1 text-[11px] text-[var(--ink-subtle)]">
-            Kelas VII-A &amp; VII-B
+            Kelas VII-A &amp; VII-B · {creativeCount} kumpulkan evaluasi uraian
           </div>
         </div>
 
         <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
           <div className="flex items-center justify-between text-xs font-medium text-[var(--ink-muted)]">
-            <span>Rata-Rata Diagnostik</span>
+            <span>Rata-Rata Diagnostik 2-Tier</span>
             <BarChart3 className="h-4 w-4 text-[var(--emerald)]" />
           </div>
           <div className="mt-2 font-mono text-3xl font-extrabold text-[var(--cobalt)]">
@@ -278,20 +304,20 @@ export default function GuruPanelPage() {
             </span>
           </div>
           <div className="mt-1 text-[11px] text-[var(--ink-subtle)]">
-            Dari {diagScores.length} siswa yang telah tes
+            Dari {diagScores.length} siswa yang telah tes 2-tier
           </div>
         </div>
 
         <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
           <div className="flex items-center justify-between text-xs font-medium text-[var(--ink-muted)]">
-            <span>Tahap LKPD Tuntas</span>
+            <span>LKPD Tuntas (LKS 1–3)</span>
             <BookOpen className="h-4 w-4 text-[var(--cobalt)]" />
           </div>
           <div className="mt-2 font-mono text-3xl font-extrabold text-[var(--emerald)]">
             {totalLkpdDone}
           </div>
           <div className="mt-1 text-[11px] text-[var(--ink-subtle)]">
-            Total dari {students.length * 4} target tahap
+            Total dari {students.length * 3} target LKS
           </div>
         </div>
 
@@ -316,7 +342,7 @@ export default function GuruPanelPage() {
             Distribusi Miskonsepsi Kelas (Sarla et al., 2025)
           </h2>
           <p className="mt-1 text-xs text-[var(--ink-muted)]">
-            Akumulasi indikator miskonsepsi dari percobaan diagnostik terbaru
+            Akumulasi indikator miskonsepsi dari Tab Diagnostik 2-Tier terbaru
             seluruh siswa.
           </p>
 
@@ -333,7 +359,7 @@ export default function GuruPanelPage() {
                 color: "bg-[var(--ochre-ink)]",
               },
               {
-                label: "Klasifikasional (Identifikasi Bentuk PLSV)",
+                label: "Klasifikasional (Identifikasi Bentuk PLSV & PtLSV)",
                 count: misconceptionTotals.klasifikasional,
                 color: "bg-[var(--cobalt)]",
               },
@@ -379,15 +405,15 @@ export default function GuruPanelPage() {
         </aside>
       </div>
 
-      {/* Student Progress & Scaffolding Matrix */}
+      {/* Student Progress & Scaffolding Matrix + Expandable Essay Inspector */}
       <section className="mt-6 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)]">
         <div className="border-b border-[var(--border)] px-5 py-4">
           <h2 className="font-display text-lg font-bold text-[var(--ink)]">
-            Matriks Progres LKPD, Scaffolding, &amp; Diagnostik Siswa
+            Matriks Progres LKPD (3 LKS), Evaluasi Uraian &amp; Diagnostik Siswa
           </h2>
           <p className="mt-0.5 text-xs text-[var(--ink-muted)]">
-            Memantau kemandirian belajar siswa berdasarkan penurunan kebutuhan
-            scaffolding (L1/L2/L3) dan capaian evaluasi.
+            Klik <strong>Lihat Jawaban</strong> pada baris siswa untuk meninjau
+            uraian Evaluasi 4 Soal (PLSV &amp; PtLSV) dan refleksi LKS 1–3.
           </p>
         </div>
 
@@ -397,74 +423,174 @@ export default function GuruPanelPage() {
               <tr>
                 <th className="px-4 py-3">Nama Siswa</th>
                 <th className="px-4 py-3">Kelas</th>
-                <th className="px-4 py-3">LKPD Tuntas</th>
-                <th className="px-4 py-3">Scaffolding (L1 / L2 / L3)</th>
-                <th className="px-4 py-3">Diagnostik</th>
-                <th className="px-4 py-3">Miskonsepsi Utama</th>
-                <th className="px-4 py-3">Status Intervensi</th>
+                <th className="px-4 py-3">LKPD (LKS 1–3)</th>
+                <th className="px-4 py-3">Scaffolding (L1/L2/L3)</th>
+                <th className="px-4 py-3">Evaluasi Uraian</th>
+                <th className="px-4 py-3">Diagnostik 2-Tier</th>
+                <th className="px-4 py-3">Tinjau</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border-subtle)]">
               {students.map((st) => {
                 const score = st.latestDiagnosticScore;
-                const status =
-                  score === null
-                    ? {
-                        label: "Belum Tes",
-                        cls: "bg-[var(--surface-muted)] text-[var(--ink-muted)]",
-                      }
-                    : score >= 80
-                    ? {
-                        label: "Mandiri",
-                        cls: "bg-[var(--emerald-soft)] text-[var(--emerald)]",
-                      }
-                    : score >= 65
-                    ? {
-                        label: "Perlu Penguatan",
-                        cls: "bg-[var(--ochre-bg)] text-[var(--ochre-ink)]",
-                      }
-                    : {
-                        label: "Prioritas Remedial",
-                        cls: "bg-[var(--vermilion-soft)] text-[var(--vermilion)]",
-                      };
+                const expanded = expandedStudentId === st.profile.id;
+                const creativeAns = st.latestCreativeAttempt?.answers as
+                  | {
+                      responses?: Record<string, string>;
+                      quickChecks?: Record<string, string>;
+                    }
+                  | undefined;
 
                 return (
-                  <tr
-                    key={st.profile.id}
-                    className="hover:bg-[var(--surface-muted)]/40"
-                  >
-                    <td className="px-4 py-3 font-semibold text-[var(--ink)]">
-                      {st.profile.full_name}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-[var(--ink-muted)]">
-                      {st.profile.class_name || "—"}
-                    </td>
-                    <td className="px-4 py-3 font-mono">
-                      <span className="font-bold text-[var(--ink)]">
-                        {st.lkpdCompleted}/4
-                      </span>{" "}
-                      <span className="text-[var(--ink-subtle)]">
-                        (rata {st.lkpdAvgScore}%)
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 font-mono text-[var(--ink-muted)]">
-                      {st.scaffoldingTotal.l1} / {st.scaffoldingTotal.l2} /{" "}
-                      {st.scaffoldingTotal.l3}
-                    </td>
-                    <td className="px-4 py-3 font-mono font-bold text-[var(--cobalt)]">
-                      {score !== null ? `${score}/100` : "—"}
-                    </td>
-                    <td className="px-4 py-3 capitalize text-[var(--ink-muted)]">
-                      {st.dominantMisconception ?? "—"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-block rounded-full px-2.5 py-0.5 font-mono text-[10px] font-bold ${status.cls}`}
-                      >
-                        {status.label}
-                      </span>
-                    </td>
-                  </tr>
+                  <React.Fragment key={st.profile.id}>
+                    <tr className="hover:bg-[var(--surface-muted)]/40">
+                      <td className="px-4 py-3 font-semibold text-[var(--ink)]">
+                        {st.profile.full_name}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-[var(--ink-muted)]">
+                        {st.profile.class_name || "—"}
+                      </td>
+                      <td className="px-4 py-3 font-mono">
+                        <span className="font-bold text-[var(--ink)]">
+                          {st.lkpdCompleted}/3 LKS
+                        </span>{" "}
+                        <span className="text-[var(--ink-subtle)]">
+                          (rata {st.lkpdAvgScore}%)
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 font-mono text-[var(--ink-muted)]">
+                        {st.scaffoldingTotal.l1} / {st.scaffoldingTotal.l2} /{" "}
+                        {st.scaffoldingTotal.l3}
+                      </td>
+                      <td className="px-4 py-3">
+                        {st.latestCreativeAttempt ? (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--emerald-soft)] px-2.5 py-0.5 font-mono text-[10px] font-bold text-[var(--emerald)]">
+                            <FileText className="h-3 w-3" />
+                            Terkumpul (
+                            {st.latestCreativeAttempt.misconception_summary
+                              ?.answeredProblems ?? 4}
+                            /4)
+                          </span>
+                        ) : (
+                          <span className="font-mono text-[11px] text-[var(--ink-subtle)]">
+                            Belum kumpul
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 font-mono font-bold text-[var(--cobalt)]">
+                        {score !== null ? `${score}/100` : "—"}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExpandedStudentId(expanded ? null : st.profile.id)
+                          }
+                          className="inline-flex items-center gap-1 rounded-md border border-[var(--border)] bg-white px-2.5 py-1 text-[11px] font-semibold text-[var(--ink)] hover:bg-[var(--surface-muted)]"
+                        >
+                          {expanded ? (
+                            <>
+                              Tutup <ChevronUp className="h-3 w-3" />
+                            </>
+                          ) : (
+                            <>
+                              Lihat Jawaban <ChevronDown className="h-3 w-3" />
+                            </>
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+
+                    {expanded && (
+                      <tr className="bg-[var(--surface-muted)]/40">
+                        <td colSpan={7} className="px-5 py-4">
+                          <div className="grid gap-4 md:grid-cols-2">
+                            {/* Creative Evaluation Responses */}
+                            <div className="rounded-lg border border-[var(--border)] bg-white p-3.5">
+                              <div className="font-display text-xs font-bold uppercase tracking-wider text-[var(--cobalt)]">
+                                Jawaban Evaluasi Uraian (4 Soal PLSV &amp; PtLSV)
+                              </div>
+                              {creativeAns?.responses &&
+                              Object.keys(creativeAns.responses).length > 0 ? (
+                                <div className="mt-2 space-y-2 text-xs">
+                                  {Object.entries(creativeAns.responses).map(
+                                    ([k, v]) => (
+                                      <div
+                                        key={k}
+                                        className="rounded bg-[var(--surface-muted)] p-2"
+                                      >
+                                        <span className="font-mono text-[10px] font-bold uppercase text-[var(--ink-subtle)]">
+                                          {k}:
+                                        </span>
+                                        <p className="mt-0.5 whitespace-pre-wrap text-[var(--ink)]">
+                                          {v || "(kosong)"}
+                                        </p>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              ) : (
+                                <p className="mt-2 text-xs text-[var(--ink-muted)]">
+                                  Siswa belum mengumpulkan Evaluasi Uraian 4
+                                  Soal.
+                                </p>
+                              )}
+                            </div>
+
+                            {/* LKS Reflections & Notes */}
+                            <div className="rounded-lg border border-[var(--border)] bg-white p-3.5">
+                              <div className="font-display text-xs font-bold uppercase tracking-wider text-[var(--emerald)]">
+                                Ringkasan &amp; Refleksi LKPD (LKS 1–3)
+                              </div>
+                              {st.lkpdRows.length > 0 ? (
+                                <div className="mt-2 space-y-2 text-xs">
+                                  {st.lkpdRows.map((row) => {
+                                    const ansObj = (row.answers ?? {}) as Record<
+                                      string,
+                                      unknown
+                                    >;
+                                    const kesimpulan =
+                                      ansObj[`lks${row.stage_number}_kesimpulan`];
+                                    const pertanyaan =
+                                      ansObj[`lks${row.stage_number}_pertanyaan`];
+                                    return (
+                                      <div
+                                        key={row.id}
+                                        className="rounded bg-[var(--surface-muted)] p-2"
+                                      >
+                                        <div className="font-mono text-[11px] font-bold text-[var(--ink)]">
+                                          LKS {row.stage_number} — Capaian{" "}
+                                          {row.score}%
+                                        </div>
+                                        {typeof kesimpulan === "string" &&
+                                          kesimpulan.trim() && (
+                                            <p className="mt-1 text-[var(--ink)]">
+                                              <strong>Kesimpulan:</strong>{" "}
+                                              {kesimpulan}
+                                            </p>
+                                          )}
+                                        {typeof pertanyaan === "string" &&
+                                          pertanyaan.trim() && (
+                                            <p className="mt-1 text-[var(--cobalt)]">
+                                              <strong>Pertanyaan siswa:</strong>{" "}
+                                              {pertanyaan}
+                                            </p>
+                                          )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              ) : (
+                                <p className="mt-2 text-xs text-[var(--ink-muted)]">
+                                  Belum ada pengumpulan LKS 1–3.
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </tbody>

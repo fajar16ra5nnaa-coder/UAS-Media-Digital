@@ -11,10 +11,11 @@ export function Footer() {
               Ruas<span className="text-[var(--cobalt)]">Setara</span>
             </div>
             <p className="mt-1.5 max-w-md text-xs leading-relaxed text-[var(--ink-muted)]">
-              Website Pembelajaran Interaktif Persamaan Linear Satu Variabel
-              (PLSV) Jenjang SMP Kelas VII (Fase D — SK Ka BSKAP No.
-              046/H/KR/2025) melalui Eksplorasi Visual-Simbolik dan Scaffolding
-              Bertingkat.
+              Website Pembelajaran Interaktif Persamaan &amp; Pertidaksamaan
+              Linear Satu Variabel (PLSV &amp; PtLSV) Jenjang SMP Kelas VII
+              (Fase D — SK Ka BSKAP No. 046/H/KR/2025) melalui Eksplorasi
+              Visual-Simbolik, LKPD Inkuiri 3 LKS, dan Evaluasi Berpikir
+              Kreatif.
             </p>
           </div>
           <div className="md:col-span-3">
