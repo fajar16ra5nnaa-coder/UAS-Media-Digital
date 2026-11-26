@@ -11,6 +11,10 @@ import {
   Lightbulb,
   ShieldCheck,
   Rocket,
+  Mail,
+  Instagram,
+  Facebook,
+  Linkedin,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -18,6 +22,29 @@ export const metadata: Metadata = {
   description:
     "Profil pengembang RuasSetara: media pembelajaran digital interaktif PLSV & PtLSV untuk Kurikulum Merdeka Fase D.",
 };
+
+const SOCIALS = [
+  {
+    label: "Email",
+    href: "mailto:rahmabudiasti.2026@student.uny.ac.id",
+    Icon: Mail,
+  },
+  {
+    label: "Instagram — @rhm.asti",
+    href: "https://www.instagram.com/rhm.asti/",
+    Icon: Instagram,
+  },
+  {
+    label: "Facebook — Rahma Budi Asti",
+    href: "https://www.facebook.com/profile.php?id=100089806098536",
+    Icon: Facebook,
+  },
+  {
+    label: "LinkedIn — in/rahmabudiasti",
+    href: "https://www.linkedin.com/in/rahmabudiasti/",
+    Icon: Linkedin,
+  },
+] as const;
 
 const STATS = [
   { value: "6", label: "Modul Interaktif", hint: "Lab · LKPD · Evaluasi · Kuis · Diskusi · Guru" },
@@ -142,6 +169,25 @@ export default function ProfilPengembangPage() {
               @RahmaBudiasti
             </span>
           </div>
+          {/* Social icons */}
+          <div className="mt-4 flex items-center gap-2">
+            <span className="mr-1 font-mono text-[9px] font-semibold uppercase tracking-[0.3em] text-[var(--ink-subtle)]">
+              Sosial
+            </span>
+            {SOCIALS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto:") ? undefined : "_blank"}
+                rel="noreferrer"
+                aria-label={label}
+                title={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--ink-muted)] transition hover:border-[var(--cobalt)] hover:bg-[var(--cobalt)] hover:text-white"
+              >
+                <Icon className="h-4 w-4" strokeWidth={1.8} />
+              </a>
+            ))}
+          </div>
 
           {/* Stats strip */}
           <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--border)] sm:grid-cols-4">
@@ -195,6 +241,10 @@ export default function ProfilPengembangPage() {
                   <div>
                     <dt className="font-mono text-[8px] uppercase tracking-widest text-white/45">Nama</dt>
                     <dd className="mt-0.5 font-semibold text-white">Rahma Budi Asti</dd>
+                  </div>
+                  <div>
+                    <dt className="font-mono text-[8px] uppercase tracking-widest text-white/45">NIM</dt>
+                    <dd className="mt-0.5 font-mono font-bold tracking-[0.15em] text-emerald-300">26031140124</dd>
                   </div>
                   <div>
                     <dt className="font-mono text-[8px] uppercase tracking-widest text-white/45">Prodi</dt>
