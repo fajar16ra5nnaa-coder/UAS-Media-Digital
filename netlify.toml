@@ -1,0 +1,11 @@
+# Netlify deployment configuration for RuasSetara
+# Next.js 15 (App Router) with API routes & middleware via @netlify/plugin-nextjs
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
