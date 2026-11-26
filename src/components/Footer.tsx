@@ -62,6 +62,18 @@ export function Footer() {
           </div>
         </div>
       </div>
+      {/* Bottom bar */}
+      <div className="border-t border-[var(--border)]">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-3 text-[11px] text-[var(--ink-subtle)] sm:flex-row sm:px-6 lg:px-8">
+          <p>© 2026 @ copyright RahmaBudiasti</p>
+          <Link
+            href="/profil-pengembang"
+            className="font-semibold transition hover:text-[var(--cobalt)]"
+          >
+            Profil Pengembang →
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }
