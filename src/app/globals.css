@@ -135,3 +135,11 @@ h3,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* RuasSetara profile illustration floats */
+@keyframes rs-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-rs-float { animation: rs-float 5s ease-in-out infinite; }
+.animate-rs-float-delayed { animation: rs-float 6.5s ease-in-out 1.2s infinite; }
