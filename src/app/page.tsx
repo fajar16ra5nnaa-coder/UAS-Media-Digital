@@ -76,23 +76,20 @@ export default function HomePage() {
       {/* Editorial Hero */}
       <section className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 font-mono text-xs font-medium text-[var(--ink-muted)]">
-            <span className="h-2 w-2 rounded-full bg-[var(--emerald)]" />
-            Kurikulum Merdeka · Fase D (SMP Kelas VII) · Elemen Aljabar
-          </div>
-
-          <h1 className="mt-4 font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-[var(--ink)] sm:text-5xl">
-            Pahami PLSV &amp; PtLSV lewat{" "}
-            <span className="text-[var(--cobalt)]">Kesetaraan Ruas</span>, bukan
-            sekadar hafalan pindah ruas.
+          <h1 className="mt-2 font-display text-4xl font-extrabold leading-[1.15] tracking-tight text-[var(--ink)] sm:text-5xl">
+            Bingung dengan{" "}
+            <span className="text-[var(--cobalt)]">PLSV dan PtLSV?</span> Yuk,
+            pahami konsepnya dengan cara yang lebih mudah!
           </h1>
 
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg">
-            <strong>RuasSetara</strong> menjembatani pemahaman visual-konkret
-            timbangan aljabar dengan notasi simbolik formal untuk{" "}
-            <strong>PLSV &amp; PtLSV</strong>, dilengkapi LKPD inkuiri 3 LKS,{" "}
-            <em>scaffolding</em> bertingkat 3 level, serta evaluasi berpikir
-            kreatif dan diagnostik miskonsepsi.
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg">
+            <strong className="text-[var(--ink)]">
+              Mengapa Ruas Kiri dan Ruas Kanan Harus Seimbang?
+            </strong>
+            <br />
+            Temukan jawabannya melalui ilustrasi timbangan, kegiatan
+            eksplorasi, dan latihan menarik. Kenali hubungan antara konsep
+            kesetaraan dan cara menyelesaikan PLSV dan PtLSV dengan mudah!
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
