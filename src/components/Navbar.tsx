@@ -77,14 +77,9 @@ export function Navbar() {
             <rect x="6.5" y="9" width="6" height="4" rx="1.2" fill="#1D4ED8" />
             <rect x="19.5" y="9" width="6" height="4" rx="1.2" fill="#0D7A5F" />
           </svg>
-          <div className="leading-none">
-            <span className="font-display text-lg font-bold tracking-tight text-[var(--ink)]">
-              Ruas<span className="text-[var(--cobalt)]">Setara</span>
-            </span>
-            <span className="mt-0.5 block font-mono text-[10px] font-medium uppercase tracking-wider text-[var(--ink-subtle)]">
-              PLSV &amp; PtLSV · SMP VII
-            </span>
-          </div>
+          <span className="font-display text-lg font-bold tracking-tight text-[var(--ink)]">
+            Ruas<span className="text-[var(--cobalt)]">Setara</span>
+          </span>
         </Link>
 
         {/* Desktop Nav */}
