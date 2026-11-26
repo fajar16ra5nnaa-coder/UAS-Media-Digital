@@ -12,10 +12,7 @@ export function Footer() {
             </div>
             <p className="mt-1.5 max-w-md text-xs leading-relaxed text-[var(--ink-muted)]">
               Website Pembelajaran Interaktif Persamaan &amp; Pertidaksamaan
-              Linear Satu Variabel (PLSV &amp; PtLSV) Jenjang SMP Kelas VII
-              (Fase D — SK Ka BSKAP No. 046/H/KR/2025) melalui Eksplorasi
-              Visual-Simbolik, LKPD Inkuiri 3 LKS, dan Evaluasi Berpikir
-              Kreatif.
+              Linear Satu Variabel (PLSV &amp; PtLSV).
             </p>
           </div>
           <div className="md:col-span-3">
@@ -55,7 +52,7 @@ export function Footer() {
               Proyek Akademik
             </div>
             <p className="mt-2 text-xs leading-relaxed text-[var(--ink-muted)]">
-              Final Project Mata Kuliah Teknologi Digital Pembelajaran
+              Project Mata Kuliah Teknologi Digital Pembelajaran
               Matematika (TDPM 2026)
               <br />
               Program Studi Magister (S2) Pendidikan Matematika
