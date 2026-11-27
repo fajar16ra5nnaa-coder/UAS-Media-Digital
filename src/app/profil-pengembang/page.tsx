@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Rocket,
   Sparkles,
+  ChevronDown,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -151,18 +152,17 @@ export default function ProfilPengembangPage() {
               Mahasiswi S2 · Pendidikan Matematika
             </span>
             <h1 className="mt-5 font-display font-extrabold tracking-tight text-[#0B1B33]">
-              <span className="block text-6xl leading-[1.02] sm:text-7xl">
-                Hi, saya Rahma
+              <span className="block text-4xl leading-[1.05] sm:text-6xl">
+                Hi, saya Rahma Budiasti
               </span>
               <span className="mt-4 block max-w-lg text-2xl leading-snug text-[#1D4ED8] sm:text-3xl">
                 Saya suka mengeksplorasi cara baru untuk belajar matematika.
               </span>
             </h1>
             <p className="mt-5 max-w-md text-base leading-relaxed text-[#3B4A63] sm:text-lg">
-              Saya <strong className="text-[#0B1B33]">Rahma Budiasti</strong>,
-              Pengembang Media Pembelajaran{" "}
-              <strong className="text-[#0B1B33]">RuasSetara</strong>. Melalui
-              media ini, saya ingin mengajak siswa belajar PLSV dan PtLSV
+              Sebagai pengembang Media Pembelajaran{" "}
+              <strong className="text-[#0B1B33]">RuasSetara</strong>. Saya
+              ingin media ini dapat mengajak siswa belajar PLSV dan PtLSV
               dengan cara yang lebih menarik, interaktif, dan mudah dipahami.
             </p>
 
@@ -175,10 +175,12 @@ export default function ProfilPengembangPage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
-                href="mailto:rahmabudiasti.2026@student.uny.ac.id"
+                href="#tentang"
+                aria-label="Gulir ke bagian Tentang Saya"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-[#0B1B33] bg-white/70 px-6 py-[10px] text-sm font-bold text-[#0B1B33] backdrop-blur transition hover:border-[#1D4ED8] hover:text-[#1D4ED8]"
               >
-                Hubungi Saya
+                Kenali Saya Lebih Jauh
+                <ChevronDown className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -227,7 +229,11 @@ export default function ProfilPengembangPage() {
       </section>
 
       {/* ============ TENTANG SAYA ============ */}
-      <section className="grid gap-8 rounded-[2rem] border border-[#E3ECF5] bg-white px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:gap-12">
+      <section
+        id="tentang"
+        aria-label="Tentang Saya"
+        className="scroll-mt-6 grid gap-8 rounded-[2rem] border border-[#E3ECF5] bg-white px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-12 lg:gap-12"
+      >
         <div className="lg:col-span-4">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-[#1D4ED8]">
             Tentang Saya
