@@ -20,3 +20,6 @@ build/
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# Reference/scratch images (not part of the app)
+image-search/
