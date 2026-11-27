@@ -31,13 +31,14 @@
 
   --font-bricolage: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
   --font-ibm-plex-sans: "IBM Plex Sans", system-ui, sans-serif;
-  --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 @theme inline {
+  /* Hanya 2 font yang dipakai di seluruh web: Bricolage Grotesque + IBM Plex Sans.
+     Slot "mono" (angka/simbol matematika) diarahkan ke IBM Plex Sans dengan tabular-nums. */
   --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --font-mono: var(--font-ibm-plex-sans), system-ui, sans-serif;
 }
 
 * {
@@ -62,7 +63,7 @@ h3,
 }
 
 .font-math {
-  font-family: var(--font-mono);
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
