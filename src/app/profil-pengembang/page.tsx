@@ -23,19 +23,8 @@ import {
 export const metadata: Metadata = {
   title: "Profil Pengembang — RuasSetara",
   description:
-    "Profil pengembang RuasSetara: media pembelajaran digital interaktif PLSV & PtLSV — oleh Rahma Budi Asti, S2 Pendidikan Matematika Pascasarjana UNY.",
+    "Profil pengembang RuasSetara: media pembelajaran digital interaktif PLSV & PtLSV — oleh Rahma Budiasti, S2 Pendidikan Matematika Pascasarjana UNY.",
 };
-
-const STACK = [
-  "Next.js 15",
-  "TypeScript",
-  "Tailwind CSS",
-  "Supabase",
-  "Vitest",
-  "Vercel",
-  "Netlify",
-  "Figma",
-] as const;
 
 const STATS = [
   { value: "6", label: "Modul Interaktif", dot: "#F59E0B" },
@@ -104,8 +93,8 @@ const SOCIALS = [
     Icon: Instagram,
   },
   {
-    label: "Facebook — Rahma Budi Asti",
-    handle: "Rahma Budi Asti",
+    label: "Facebook — Rahma Budiasti",
+    handle: "Rahma Budiasti",
     href: "https://www.facebook.com/profile.php?id=100089806098536",
     Icon: Facebook,
   },
@@ -159,20 +148,22 @@ export default function ProfilPengembangPage() {
           <div className="lg:col-span-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#BFE0FF] bg-white/80 py-1.5 pl-2 pr-4 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1D4ED8] backdrop-blur">
               <Sparkles className="h-3.5 w-3.5" />
-              Mahasiswi S2 · TDPM 2026
+              Mahasiswi S2 · Pendidikan Matematika
             </span>
-            <h1 className="mt-5 font-display text-5xl font-extrabold leading-[1.04] tracking-tight text-[#0B1B33] sm:text-6xl">
-              Hi, saya Rahma —
-              <span className="mt-2 block text-[#1D4ED8]">
-                membikin matematika terasa masuk akal.
+            <h1 className="mt-5 font-display font-extrabold tracking-tight text-[#0B1B33]">
+              <span className="block text-6xl leading-[1.02] sm:text-7xl">
+                Hi, saya Rahma
+              </span>
+              <span className="mt-4 block max-w-lg text-2xl leading-snug text-[#1D4ED8] sm:text-3xl">
+                Saya suka mengeksplorasi cara baru untuk belajar matematika.
               </span>
             </h1>
             <p className="mt-5 max-w-md text-base leading-relaxed text-[#3B4A63] sm:text-lg">
-              Saya{" "}
-              <strong className="text-[#0B1B33]">Rahma Budi Asti</strong>,
-              pengembang <strong className="text-[#0B1B33]">RuasSetara</strong>:
-              media belajar interaktif yang mengubah “pindah ruas” menjadi
-              petualangan menimbang kesetaraan untuk materi PLSV &amp; PtLSV.
+              Saya <strong className="text-[#0B1B33]">Rahma Budiasti</strong>,
+              Pengembang Media Pembelajaran{" "}
+              <strong className="text-[#0B1B33]">RuasSetara</strong>. Melalui
+              media ini, saya ingin mengajak siswa belajar PLSV dan PtLSV
+              dengan cara yang lebih menarik, interaktif, dan mudah dipahami.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -190,19 +181,6 @@ export default function ProfilPengembangPage() {
                 Hubungi Saya
               </a>
             </div>
-
-            {/* Stack chips */}
-            <ul className="mt-7 flex flex-wrap gap-2">
-              {STACK.map((tech) => (
-                <li
-                  key={tech}
-                  className="flex items-center gap-1.5 rounded-full border border-[#D6E9FB] bg-white/90 px-3 py-1.5 text-[10px] font-semibold text-[#3B4A63] shadow-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#1D4ED8]" />
-                  {tech}
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Portrait */}
@@ -215,7 +193,7 @@ export default function ProfilPengembangPage() {
             <div className="relative overflow-hidden rounded-full border-[6px] border-white bg-[#DCEEFF] shadow-2xl shadow-[#1D4ED8]/15 ring-1 ring-[#BFE0FF]">
               <Image
                 src="/images/profil-rahma.webp"
-                alt="Ilustrasi 3D Rahma Budi Asti — berkaca mata bulat, cardigan kuning mustard, memegang laptop dengan kalung liontin timbangan"
+                alt="Ilustrasi 3D Rahma Budiasti — berkaca mata bulat, cardigan kuning mustard, memegang laptop dengan kalung liontin timbangan"
                 width={1024}
                 height={1536}
                 priority
@@ -239,10 +217,10 @@ export default function ProfilPengembangPage() {
             </span>
             <span
               aria-hidden="true"
-              className="animate-rs-float absolute -bottom-2 left-4 flex items-center gap-2 rounded-2xl border border-[#BBF7D0] bg-white/95 px-3 py-2 text-xs font-extrabold text-[#047857] shadow-lg backdrop-blur"
+              className="animate-rs-float absolute -bottom-2 left-4 flex items-center gap-2 rounded-2xl border border-[#FDE68A] bg-white/95 px-3 py-2 text-xs font-extrabold text-[#92400E] shadow-lg backdrop-blur"
             >
-              <span className="h-2 w-2 rounded-full bg-[#10B981]" />
-              Next.js + Supabase
+              <GraduationCap className="h-4 w-4" />
+              UNY 2026 · TDPM
             </span>
           </div>
         </div>
